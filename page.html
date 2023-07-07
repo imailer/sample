@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Calls</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function makeFirstAPICall() {
+      $.ajax({
+        url: 'https://github.tools.sap/api/v3/repos/DAS/da-config/contents/da.sapdas.yaml?ref=fb_sfsf_beta',
+        method: 'GET',
+	headers: {
+            'Authorization': 'Bearer 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'
+        },
+        success: function(response) {
+          console.log('First API Response:', response);
+          // Store the JSON response to retrieve a key value later
+          localStorage.setItem('jsonData', JSON.stringify(response));
+        },
+        error: function(error) {
+          console.error('First API Error:', error);
+        }
+      });
+    }
+
+    function makeSecondAPICall() {
+      var jsonData = JSON.parse(localStorage.getItem('jsonData'));
+
+      if (jsonData) {
+        var keyValue = jsonData.download_url; // Replace 'key' with the appropriate key from the JSON response
+        var url = keyValue;
+
+        $.ajax({
+          url: url,
+          method: 'GET',
+          headers: {
+            'Origin':'localhost',
+            'Authorization': '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',
+            'X-GitHub-Api-Version': '2022-11-28'
+          },
+          success: function(response) {
+            console.log('Second API Response:', response);
+            // Process the second API response here
+          },
+          error: function(error) {
+            console.error('Second API Error:', error);
+          }
+        });
+      } else {
+        console.error('No JSON data found. Please make the first API call first.');
+      }
+    }
+  </script>
+</head>
+<body>
+  <button onclick="makeFirstAPICall()">Make First API Call</button>
+  <button onclick="makeSecondAPICall()">Make Second API Call</button>
+</body>
+</html>
