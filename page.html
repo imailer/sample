@@ -6,10 +6,10 @@
   <script>
     function makeFirstAPICall() {
       $.ajax({
-        url: 'https://github.tools.sap/api/v3/repos/DAS/da-config/contents/da.sapdas.yaml?ref=fb_sfsf_beta',
+        url: 'https://approuter-das-deployment-test.cfapps.eu12.hana.ondemand.com/api/onboarding/da-status',
         method: 'GET',
 	headers: {
-            'Authorization': 'Bearer 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'
+            'Subscriber-Subdomain': 'eu12-das-blr'
         },
         success: function(response) {
           console.log('First API Response:', response);
